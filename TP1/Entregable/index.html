@@ -32,7 +32,7 @@
 		</nav>
 
 
-		<div class="outer-col-2">
+		<div class="outer-col-2" >
 
 			<header><!-- SUBIR IMAGEN Y BLANK. -->
 
@@ -46,7 +46,7 @@
 			<div class="inner-col">
 				
 			
-				<canvas id="myCanvas" width="800" height="500">
+				<canvas id="myCanvas" width="950" height="500">
 					TU NAVEGADOS NO SOPORTA CANVAS DE HTML5.
 				  </canvas>
 				
@@ -55,16 +55,19 @@
 				<footer>
 					
 					<div class="filtros box">
-
-						<select id="selectFiltros" >
+						<h1>FILTROS: </h1>
+						<select id="selectFiltros">
+							<option value="ninguno">NINGUNO</option>
                             <option value="negativo">NEGATIVO</option>
                             <option value="sepia">SEPIA</option>
                             <option value="binario">BINARIZACION</option>
                             <option value="blur">BLUR</option>
-                            <option value="saturacion">SATURACION</option>
-							
                         </select>
-						<button class="botonFiltros" id="btnQuitarFiltro">Quitar</button>
+
+						<h1>BRILLO: </h1>
+						<div class="filtros">
+                        <input type="range" class="brillo" id="brillo" min="0" max="100" value="0">
+                        </div>
 						
 
 				</footer>
