@@ -1,0 +1,57 @@
+body {
+    background: #32cdab;
+}
+    
+.medidas {
+    margin-left: 10%;
+    margin-top: 2%;
+}
+
+#timer{
+    display: inline-block;
+    margin-left: 2%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #254683;
+    font-weight: bold;
+    font-size: larger;
+    text-shadow: 0 0 5px #fff;
+
+}
+
+input {
+    width: 60px;
+    height: 25px;
+    text-align: center;
+    
+}
+
+
+
+label {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #254683;
+    font-weight: bold;
+    font-size: larger;
+    text-shadow: 0 0 5px #fff;
+    margin-left: 0.5%;
+}
+
+#buttonIniciar {
+    font-size: larger;
+    width: 10%;
+    height: auto;
+    padding: 5px;
+    margin-left: 0.5%;
+	background-color:#254683;
+	border-radius:4px;
+	border:1px solid #4e6096;
+	display: inline-block;
+	color:#ffffff;
+	font-weight:bold;
+    text-decoration:none;
+
+}
+
+canvas {
+    border: 3px solid black;
+    }
