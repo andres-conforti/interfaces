@@ -14,25 +14,25 @@
 		<!--CAJA LATERAL DONDE ESTAN LAS OPCIONES DE ESCRITURA/BORRADO/DESCARGA-->
 		<nav class="outer-col-1">
 		<div class="boxLateral">
-			<div style="text-align: center;">			
-				<button id="btnLapiz" class="botonLateral">LAPIZ <i class="fas fa-pen"></i></button>
-				<input class="btn btn-outline-primary" type="color" id="inpColor">
-				<input type="range" id="selectLapiz">
-			</div>
-			
-			<div style="text-align: center;">	
-			<button id="botonBorrador" class="botonLateral">BORRADOR <i class="fas fa-eraser"></i></button>
-			<input type="range" id="selectBorrador">
-		    </div>
+			<div style="text-align: center;">
 
-			<!--Medio al pp queda esta funcion, nose si usarla-->
-			<a id="descargar" download><button class="botonLateral" id="saveImage">DESCARGAR <i class="fas fa-download"></i></button></a>
-			<button type="submit" class="botonLateral">ELIMINAR <i class="fas fa-trash-alt"></i></button>
+				<button id="btnLapiz" class="botonLateral">LAPIZ <i class="fas fa-pen"></i></button>
+				<input type="color" id="colorSelector">
+				<input type="range" id="selectLapiz">
+			
+				<button id="botonBorrador" class="botonLateral">BORRADOR <i class="fas fa-eraser"></i></button>
+				<input type="range" id="selectBorrador">
+
+				<a id="descargar" download><button class="botonLateral" id="saveImage">DESCARGAR <i class="fas fa-download"></i></button></a>
+				
+				<!--Medio al pp queda esta funcion, nose si usarla-->
+				<button id="deleteImage" class="botonLateral">DESCARTAR <i class="fas fa-trash-alt"></i></button>
+		</div>
 		</div>
 		</nav>
 
 
-		<div class="outer-col-2">
+		<div class="outer-col-2" >
 
 			<header><!-- SUBIR IMAGEN Y BLANK. -->
 
@@ -46,7 +46,7 @@
 			<div class="inner-col">
 				
 			
-				<canvas id="myCanvas" width="800" height="500">
+				<canvas id="myCanvas" width="950" height="500">
 					TU NAVEGADOS NO SOPORTA CANVAS DE HTML5.
 				  </canvas>
 				
@@ -54,22 +54,24 @@
 
 				<footer>
 					
-					<div class="filtros"><!-- CAJA FILTROS. -->
-						<h1>FILTROS POR PIXEL</h1>
-						<button id="botonNegativo" class="botonFiltros">NEGATIVO</button>
-						<button id="botonBinario" class="botonFiltros">BINARIZACION</button>
-						<button id="botonSepia" class="botonFiltros">SEPIA</button>
-						<button id="botonBrillo" class="botonFiltros">BRILLO</button><input type="range" id="inpBrillo">
-					</div>
-					
-					<div class="filtros"><!-- CAJA FILTROS DE IMAGEN. -->
+					<div class="filtros box">
+						<h1>FILTROS: </h1>
+						<select id="selectFiltros">
+							<option value="ninguno">NINGUNO</option>
+                            <option value="negativo">NEGATIVO</option>
+                            <option value="sepia">SEPIA</option>
+                            <option value="binario">BINARIZACION</option>
+                            <option value="blur">BLUR</option>
+                        </select>
 
-						<h1>FILTROS POR IMAGEN</h1>
-						<button id="botonSatu" class="botonFiltros">SATURACION</i></button>
-						<button id="botonBlur" class="botonFiltros">BLUR</button>
-					</div>
+						<h1>BRILLO: </h1>
+						<div class="filtros">
+                        <input type="range" class="brillo" id="brillo" min="0" max="100" value="0">
+                        </div>
+						
+
 				</footer>
-			</div>
+					</div>
 		  </div>
 		</div>
 
