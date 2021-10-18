@@ -16,15 +16,17 @@ function cargarPagina(){
         let c = document.querySelector("#myCanvas");
         //declaro una variable booleana (pintar) como falsa.     
         let pintar = Boolean(false);
-        //declaro la variable "color_prim" como el color a utilizar.
-        let color_prim = document.querySelector("#colorSelector").value;
         //declaro la variable canvas para utilizarla de base para cuando la modifique. (no confundir con la variable c)
         let canvas = document.querySelector("#myCanvas");
         
         //ejecuta la funcion cuando mantengo el mouse presionado en el canvas.
         c.onmousedown = function (e){
+            ctx.closePath();
+
+            ctx.lineCap = "round";
             //seteo pintar como true, como verificador que el mouse esta en funcionamiento.
             pintar = true;
+            ctx.strokeStyle = getColor(pintar);
             //checkeo si estoy utilizando el lapiz o la goma, en este caso el lapiz.
             if(herramienta == "lapiz" ){
                 //tomo el valor del grosor del lapiz.
@@ -33,14 +35,16 @@ function cargarPagina(){
                 if(penSize == 0)
                     penSize = 0.5;
                 //declaro que el trazo va a ser circular y su posicion.
-                ctx.lineCap = "round";
-                ctx.moveTo(e.pageX - c.offsetLeft, e.pageY - c.offsetTop);
+                
+                //ctx.moveTo(e.pageX - c.offsetLeft, e.pageY - c.offsetTop);
             }
         }   
         //Seteo pintar como false, como verificador que el mouse dejo de usarse en el canvas, e iniciar un nuevo path en el ctx.
         c.onmouseup = function(){
+            ctx.lineCap = "round";
             pintar = false;
             ctx.beginPath();
+            
         }
         
         //Se ejecuta cuando muevo el mouse mientras lo mantengo presionado sobre el canvas.
@@ -55,7 +59,7 @@ function cargarPagina(){
                     //asigno el tamaño del trazado a el que tenia guardado cuando presione el mouse en la funcion anterior (c.onmousedown).
                     ctx.lineWidth = penSize;
                     //asigno el color del trazo.
-                    ctx.strokeStyle = color_prim;
+                    ctx.strokeStyle = getColor(pintar);
                     ctx.stroke();
                 }
                 //2 - En este caso es el borrador.
@@ -81,6 +85,15 @@ function cargarPagina(){
         c.onmouseout = function(){
             pintar = false;
         };
+    }
+
+    //Funcion utilizada para elegir el color a utilizar, o por defecto usar blanco en caso de usar goma o no haber usado un color.
+    function getColor(pintar) {
+        if (pintar==true) {
+            return document.querySelector("#colorSelector").value;
+        }else{
+            return "#fffff";
+        }
     }
 
     //Funcion que carga una imagen al canvas.
@@ -117,17 +130,20 @@ function cargarPagina(){
                     //Asigno el ancho y alto de la imagen, para que entre en el canvas.
                     let imageScaledWidth = canvas.width;
                     let imageScaledHeight = canvas.height;
+
+                    canvas.width = image.naturalWidth;
+                    canvas.height = image.naturalHeight;
                 
                     //Se adapta la imagen lo mejor posible al canvas.
-                    let imageAspectRatio = (1.0 * this.height) / this.width;
+                    /*let imageAspectRatio = (1.0 * this.height) / this.width;
                     if (this.width < this.height) {
                         imageAspectRatio = (1.0 * this.width) / this.height;
                         imageScaledWidth = canvas.height * imageAspectRatio;
                         imageScaledHeight = canvas.height;
-                    }
+                    }*/
 
                     //Se dibuja la imagen en el contexto.
-                    context.drawImage(this, 0, 0, imageScaledWidth, imageScaledHeight);
+                    context.drawImage(this, 0, 0, image.naturalWidth,image.naturalHeight);
 
                     //Guardo en la variable imageData la informacion de la imagen.
                     let imageData = context.getImageData(0, 0, imageScaledWidth, imageScaledHeight);
@@ -331,6 +347,67 @@ function cargarPagina(){
             //Muestra la imagen con el filtro aplicado.
             ctx.putImageData(imageData, 0, 0);
         }
+
+        if(opcion == "saturar"){
+            
+            for (let x = 0; x < imageData.width; x++) {
+                    for (let y = 0; y < imageData.height; y++) {
+                        index = (x + y * imageData.width) * 4;
+                        let r = getRed(imageData, x, y);
+                        let g = getGreen(imageData, x, y);
+                        let b = getBlue(imageData, x, y);
+                        let a = rgbToHsl(r, g, b);
+                        a[1] = 2;
+                        let p = hslToRgb(a[0],a[1],a[2]);
+                        imageData.data[index + 0] = p[0]; 
+                        imageData.data[index + 1] = p[1]; 
+                        imageData.data[index + 2] = p[2]; 
+                    }
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+            function rgbToHsl(r, g, b) {
+                r /= 255, g /= 255, b /= 255;
+                let max = Math.max(r, g, b), min = Math.min(r, g, b);
+                let h, s, l = (max + min) / 2;
+                if (max == min) {
+                        h = s = 0;
+                } else {
+                        let d = max - min;
+                        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                        switch (max) {
+                                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                                case g: h = (b - r) / d + 2; break;
+                                case b: h = (r - g) / d + 4; break;
+                        }
+                        h /= 6;
+                }
+                return [h, s, l];
+            }
+
+            function hslToRgb(h, s, l) {
+                let r, g, b;
+                if (s == 0) {
+                        r = g = b = l;
+                } else {
+                        function hue2rgb(p, q, t) {
+                                if (t < 0) t += 1;
+                                if (t > 1) t -= 1;
+                                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                                if (t < 1 / 2) return q;
+                                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                                return p;
+                        }
+                        let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                        let p = 2 * l - q;
+                        r = hue2rgb(p, q, h + 1 / 3);
+                        g = hue2rgb(p, q, h);
+                        b = hue2rgb(p, q, h - 1 / 3);
+                }
+                return [r * 255, g * 255, b * 255];
+            }
+        }
+    
     }
     
     //Funcion para quitar los filtros.

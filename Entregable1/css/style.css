@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box; 
+  
   }
   
   body {
@@ -7,6 +8,7 @@
   min-height: 100vh;
   flex-direction: row;
   margin: 0;
+  background: rgb(39, 39, 39);
   }
   .outer-col-1 {
   background: #043b29;
@@ -24,6 +26,7 @@
   .inner-col {
   background: rgb(39, 39, 39);
   flex: 4;
+  width:40px;
   }
 
   .inner-row aside {
@@ -32,18 +35,18 @@
   }
   header {
   background: rgb(50, 205, 171);
-  height: 100px;
+  height: 99px;
   }
   header, footer, nav, aside {
   padding: 1em;
   }
 
   canvas {
-  background:#CCC;
-  text-align: center;
-  margin-left: 20%
-  
-  }
+    background:#CCC;
+    text-align: center;
+    margin-top:1px;
+    margin-left: 15%
+    }
 
   header {
   text-align: center;
@@ -136,5 +139,10 @@
   width:400px;
 }
 
+h1{
+  color:#ffffff;
+	font-family:Arial;
+	font-size:30px;
+}
 
 

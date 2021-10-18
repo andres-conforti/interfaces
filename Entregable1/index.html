@@ -23,6 +23,24 @@
 				<button id="botonBorrador" class="botonLateral">BORRADOR <i class="fas fa-eraser"></i></button>
 				<input type="range" id="selectBorrador">
 
+				<!--ACA!-->
+				<div class="filtros box">
+					<h1>FILTROS: </h1>
+					<select id="selectFiltros">
+						<option value="ninguno">NINGUNO</option>
+						<option value="negativo">NEGATIVO</option>
+						<option value="sepia">SEPIA</option>
+						<option value="binario">BINARIZACION</option>
+						<option value="blur">BLUR</option>
+						<option value="saturar">SATURACION</option>
+					</select>
+
+					<h1>BRILLO: </h1>
+					<div class="filtros">
+					<input type="range" class="brillo" id="brillo" min="0" max="100" value="0">
+					</div>
+				<!--ACA!-->
+
 				<a id="descargar" download><button class="botonLateral" id="saveImage">DESCARGAR <i class="fas fa-download"></i></button></a>
 				
 				<!--Medio al pp queda esta funcion, nose si usarla-->
@@ -46,31 +64,11 @@
 			<div class="inner-col">
 				
 			
-				<canvas id="myCanvas" width="950" height="500">
+				<canvas id="myCanvas" width="1100" height="700">
 					TU NAVEGADOS NO SOPORTA CANVAS DE HTML5.
 				  </canvas>
 				
-				
-
-				<footer>
-					
-					<div class="filtros box">
-						<h1>FILTROS: </h1>
-						<select id="selectFiltros">
-							<option value="ninguno">NINGUNO</option>
-                            <option value="negativo">NEGATIVO</option>
-                            <option value="sepia">SEPIA</option>
-                            <option value="binario">BINARIZACION</option>
-                            <option value="blur">BLUR</option>
-                        </select>
-
-						<h1>BRILLO: </h1>
-						<div class="filtros">
-                        <input type="range" class="brillo" id="brillo" min="0" max="100" value="0">
-                        </div>
-						
-
-				</footer>
+			
 					</div>
 		  </div>
 		</div>
