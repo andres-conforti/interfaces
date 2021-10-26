@@ -1,4 +1,4 @@
-//se crea la clase Tablero con su constructor, se le pasa el context.
+'use strict';//se crea la clase Tablero con su constructor, se le pasa el context.
 //ademas se declaran los valores i y j como los valores de las filas y columnas respectivamente.
 //se declara un arreglo vacio.
 class Tablero {
@@ -37,8 +37,8 @@ class Tablero {
         let space = new Casillero(this.context, posX, posY);
         let color = this.board[x][y];
         if (color.getColor() == null) space.addImage(posX, posY, imgBE);
-        if (color.getColor() == "rojo") space.addImage(posX, posY, imgBRT);
-        if (color.getColor() == "azul") space.addImage(posX, posY, imgBBT);
+        if (color.getColor() == "jug1") space.addImage(posX, posY, imgBRT);
+        if (color.getColor() == "jug2") space.addImage(posX, posY, imgBBT);
       }
     }
   }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>SIN TOCAR</title>
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+	</head>
+	<body>
+		<canvas id="canvas" width="1300" height="700" >
+		</canvas>
+
+		<div class="medidas">
+			<button id="myBtn" class="button">JUGAR...</button>
+			<button id="buttonReiniciar" class="button" disabled>REINICIAR</button>
+			<div id="timer"></div>
+		</div>
+
+		
+
+		<!-- The Modal -->
+		<div id="myModal" class="modal">
+			
+		<!-- Modal content -->
+  		<div class="modal-content">
+    	<span class="close">&times;</span>
+		<label>JUGADOR 1: 
+			<select name="color1" id="colorJ1">
+			  <option value="red">ROJO</option>
+			  <option value="orange">NARANJA</option>
+			  <option value="yellow">AMARILLO</option>
+			</select>
+		</label>
+		<label>JUGADOR 2:
+			<select name="color2" id="colorJ2">
+			<option value="blue">AZUL</option>
+			<option value="green">VERDE</option>
+			<option value="cyan">CYAN</option>
+		  </select>
+		</label>
+		<label>FILAS: <input type="number" id="idFila" value="4" max="7" min="4"></label>
+		<label>COLUMNAS: <input type="number" id="idColumna" value="4" max="9" min="4"></label>
+		<button id="buttonIniciar" class="button">INICIAR</button>
+  		</div>
+		</div>
+		
+	</body>
+    <script src="js/Token.js"></script>
+    <script src="js/Casillero.js"></script>
+    <script src="js/Tablero.js"></script>
+    <script src="js/Main.js"></script>
+</html>
+
+
+
+
+

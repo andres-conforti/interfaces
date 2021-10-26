@@ -1,4 +1,4 @@
-//Creo la clase Casillero y su constructor correspondiente
+'use strict';//Creo la clase Casillero y su constructor correspondiente
 //se le envia el context (canvas.getContext("2d")), y 2 posiciones. Ademas se declara la variable color como nula para usar luego.
 class Casillero {
   constructor(context, posX, posY) {

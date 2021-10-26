@@ -1,4 +1,4 @@
-//Se crea la clase Figura con su constructor.
+'use strict';//Se crea la clase Figura con su constructor.
 class Token {
   constructor(posX, posY, radius, fill, context, img, color) {
     this.posX = posX;
@@ -78,7 +78,7 @@ class Token {
   //devuelve el token mal soltado a su posicion original.
   posOriginal() {
     //dependiendo si es la roja o la azul la devuelve a su montoncito correcto.
-    if (this.color == "rojo") {
+    if (this.color == "jug1") {
       let posX = 200;
       let posY = 310;
       this.setPosition(posX, posY);

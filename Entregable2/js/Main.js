@@ -1,7 +1,41 @@
+'use strict';
 
 let canvas = document.querySelector("#canvas");
 let context = canvas.getContext("2d");
 let canvasWidth = canvas.width;
+let reinicio = document.querySelector("#buttonReiniciar");
+
+/*-------------MODAL------------*/
+// Get the modal
+let modal = document.getElementById("myModal");
+// Get the button that opens the modal
+let btn = document.getElementById("myBtn");
+// Get the <span> element that closes the modal
+let span = document.getElementsByClassName("close")[0];
+
+
+let iniciar = document.querySelector("#buttonIniciar");
+iniciar.onclick = function() {
+    modal.style.display = "none";
+    comenzar();}
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";}}
+/*-------------MODAL------------*/
+
+
+
+//cargo las 5 imagenes a utilizar.
+function comenzar(){
+    
+
 let lastClickedToken = null;
 let isMouseDown = false;
 
@@ -14,38 +48,73 @@ let jugada = 0;
 
 //si esta en juego o no.
 let juego = false;
+let restart = false;
 
-//asigno a una variable una instancia del Tablero y modifico la altura del canvas segun sus filas.
+//asigno a una letiable una instancia del Tablero y modifico la altura del canvas segun sus filas.
 let tablero = new Tablero(context);
 canvas.height = tablero.getFila() * 120;
 let canvasHeight = canvas.height;
 
-//guardo el la cantidad de casilleros en una variable para compararla luego.
+//guardo el la cantidad de casilleros en una letiable para compararla luego.
 let tamañoTablero = tablero.getSize();
-
-//cargo las 5 imagenes a utilizar.
-let imgBE = new Image();
-imgBE.src = "./images/boardEmpty.png";
-imgBE.onload = function(){
-    
-    let imgRT = new Image();
-    imgRT.src = "./images/tokenRed.png";
-    imgRT.onload = function(){
+    //cargo las imagenes a utilizar.
         
-        let imgBT = new Image();
-        imgBT.src = "./images/tokenBlue.png";
-        imgBT.onload = function(){
-            
-            let imgBBT = new Image();
-            imgBBT.src = "./images/boardBlue.png";
-            imgBBT.onload = function(){
-                
-                let imgBRT = new Image();
-                imgBRT.src = "./images/boardRed.png";
-                imgBRT.onload = function(){
+    let imgTableroVacio = new Image();
+    imgTableroVacio.src = "./images/boardEmpty.png";
+    
+    let imgJugador1 = new Image();
+    let imgJugador1Tablero = new Image();
+    let imgJugador2 = new Image();
+    let imgJugador2Tablero = new Image();
+    
+    //letiables colores test
+    //let colorJ1 = "rojo";
+    //let colorJ2 = "azul";
+
+    let colorJ1 = document.querySelector("#colorJ1").value;
+    let colorJ2 = document.querySelector("#colorJ2").value;
+    let nombre1 = "blank1";
+    let nombre2 = "blank2";
+
+    switch (colorJ1) {
+        case "red":
+            imgJugador1.src = "./images/tokenRed.png";
+            imgJugador1Tablero.src = "./images/boardRed.png";
+            nombre1 = "ROJO";
+            break;
+        case "orange":
+            imgJugador1.src = "./images/tokenOrange.png";
+            imgJugador1Tablero.src = "./images/boardOrange.png";
+            nombre1 = "NARANJA";
+            break;
+        case "yellow":
+            imgJugador1.src = "./images/tokenYellow.png";
+            imgJugador1Tablero.src = "./images/boardYellow.png";
+            nombre1 = "AMARILLO";
+            break;
+      }
+    
+      switch (colorJ2) {
+        case "blue":
+            imgJugador2.src = "./images/tokenBlue.png";
+            imgJugador2Tablero.src = "./images/boardBlue.png";
+            nombre2 = "AZUL";
+            break;
+        case "green":
+            imgJugador2.src = "./images/tokenGreen.png";
+            imgJugador2Tablero.src = "./images/boardGreen.png";
+            nombre2 = "VERDE";
+            break;
+        case "cyan":
+            imgJugador2.src = "./images/tokenCyan.png";
+            imgJugador2Tablero.src = "./images/boardCyan.png";
+            nombre2 = "CYAN";
+            break;
+      }
                     
                     //llena el canvas de imagenes de tablero vacio.
-                    tablero.crearTablero(imgBE);
+                    tablero.crearTablero(imgTableroVacio);
+                    
                     //debugger;
                     
                     
@@ -56,47 +125,80 @@ imgBE.onload = function(){
                     //guarda el color de la token.
                     let colorToken; 
                     //guarda el color del jugador, pero tambien se usa para determinar el fin del juego.
-                    let jugador = "rojo";
+                    let jugador = "jug1";
 
                     //agrego las tokens de cada jugador a cada lado del tablero.
                     //la cantidad de tokens corresponde al total de casilleros vacios (fila*columnas)
                     addTokens();
                     
+                    
                     //si el tablero esta cargado, incia el timer.
                     if(tamañoTablero != 0){
-                        startTimer();
-                    }                    
+                         startTimer();
+                         let cambio = true;
+                         
+                        if(juego==false){
+                        console.log("juego:",juego)
+                        reinicio.disabled = false;
+                        reinicio.onclick = function() {
+                            restart=true;
+                            comenzar();
+                        }
+                    } 
+                    if(cambio == true){
+                        let boton = document.querySelector("#myBtn");
+                        boton.className="boton2"
+                        boton.innerHTML = "NUEVO JUEGO";
+                        boton.onclick = function(){
+                            location.reload();
+                        } 
+                            
+                        
+                        
+
+                    }
+
+                         
+                    }
+                    
+
+
+                    if (juego == true)
+                    console.log("juego:",juego)
+                        //btn.onclick = location.reload();
+
+                    
                     
                     //mientras el juego no alla terminado, cambio de jugador por cada turno.
                     function cambiaJugador(){
                         if(jugador != "ultimo"){
-                            if(jugador == "rojo"){
-                                jugador = "azul";
+                            if(jugador == "jug1"){
+                                jugador = "jug2";
                             }
                             else{
-                                jugador = "rojo";
+                                jugador = "jug1";
                             }
                         }
                     }
                     
-                    //agrega al final del arreglo un token rojo en X,Y.
+                    //agrega al final del arreglo un token jug1 en X,Y.
                     function addRedToken() {
                         //x:70 - 200 <-> y:600 - 730
                         let posX = 200;
                         let posY = 310; 
-                        let color = "red";
-                        let circle = new Token(posX, posY, 50, color, context, imgRT, "rojo");
+                        let color = colorJ1;
+                        let circle = new Token(posX, posY, 50, color, context, imgJugador1, "jug1");
                         tokens.push(circle);
                     }
                     
-                    //agrega al final del arreglo un token azul en X,Y.
+                    //agrega al final del arreglo un token jug2 en X,Y.
                     function addBlueToken() {
                         //x:70 - 200 <-> y:600 - 730
                         let valor = (((tablero.getColumna() - 1) * 100) + 400);
                         let posX = valor + 40;
                         let posY = 310;
-                        let color = "blue";
-                        let circle = new Token(posX, posY, 40, color, context, imgBT, "azul");
+                        let color = colorJ2;
+                        let circle = new Token(posX, posY, 40, color, context, imgJugador2, "jug2");
                         tokens.push(circle);
                     }
                     
@@ -127,7 +229,8 @@ imgBE.onload = function(){
                     //controlo primero que sea el turno de algun jugador,
                     // en caso contrario no permite dibujar mas (en caso de haber teminado el juego.)
                     function drawTokens(){
-                        if(jugador == "rojo" || jugador == "azul"){
+                        
+                        if(jugador == "jug1" || jugador == "jug2"){
                             clearCanvas();
                             for (let i = 0; i < tokens.length; i++) {
                                 if(tokens[i] != lastClickedToken) {
@@ -147,17 +250,27 @@ imgBE.onload = function(){
                             context.fillStyle = "white";
                             context.fillText("JUGADOR", 100, 50);
                             
-                            context.font = "bold 30pt Arial";
-                            if(jugador == "rojo")
-                            context.fillStyle = "red";
-                            else
-                            context.fillStyle = "blue";
-                            context.lineWidth = 2;
-                            context.fillText(jugador.toUpperCase(), 100, 90);
+
+                            
+                            if(jugador == "jug1"){
+                                context.strokeStyle = "black";
+                                context.lineWidth = 5;
+                                context.textAlign = "center"; 
+                                context.strokeText(nombre1, 100, 90);
+                                context.fillStyle = colorJ1;
+                                context.fillText(nombre1, 100, 90);
+
+
+
+
+                            }
+                            else if(jugador == "jug2"){
                             context.strokeStyle = "black";
-                            context.lineWidth = 2;
+                            context.lineWidth = 5;
                             context.textAlign = "center"; 
-                            context.strokeText(jugador.toUpperCase(), 100, 90);
+                            context.strokeText(nombre2, 100, 90);
+                            context.fillStyle = colorJ2;
+                            context.fillText(nombre2, 100, 90);}
                         }
                     }
                     
@@ -165,9 +278,8 @@ imgBE.onload = function(){
                     function clearCanvas() {
                         //color del canvas.
                         context.fillStyle = '#32cdab';
-
                         context.fillRect(0, 0, canvasWidth, canvasHeight);
-                        tablero.mostrarTablero(imgBE,imgBBT,imgBRT);
+                        tablero.mostrarTablero(imgTableroVacio,imgJugador2Tablero,imgJugador1Tablero);
                         
                     }
                     
@@ -176,9 +288,7 @@ imgBE.onload = function(){
                     function findClickedToken(x, y){
                         juego = true;
                         
-                        if(juego != false){
-                            document.querySelector("#buttonIniciar").innerHTML = "NUEVO JUEGO";
-                        }
+                        
 
                         //recorre los tokens y comprueba que el color de la token sea el mismo que el jugador.
                         for(let i = 0; i < tokens.length; i++){
@@ -227,7 +337,7 @@ imgBE.onload = function(){
                         isMouseDown = false;
 
                         if(lastClickedToken != null){
-                            //esta variable calcula el espacio desde donde al soltar el token se contaria como la siguiente columna.
+                            //esta letiable calcula el espacio desde donde al soltar el token se contaria como la siguiente columna.
                             let finalColumna = ((tablero.getColumna() - 1) * 100) + 350;
                             //mientras que los valores del evento entren en los valores indicados, ingresa al if.
                             //se calculo un punto en concreto para que los tokens no queden del todo en la siguiente columna,
@@ -242,7 +352,7 @@ imgBE.onload = function(){
                                         columnaJugada++;
                                         posMouse += 100;
                                     }
-                                    //utiliza la variable columnaJugada para saber la columna a que preguntarle
+                                    //utiliza la letiable columnaJugada para saber la columna a que preguntarle
                                     //si el color es null en su primer indice
                                     //(la matriz del tablero en el indice X=columnajugada, Y=0)
                                     if(tablero.getImage(columnaJugada,0).getColor() == null){
@@ -268,7 +378,7 @@ imgBE.onload = function(){
 
                     //funcion que revisa, si la jugada es valida.
                     function chequearJugada(columna){
-                        //asigna variable para guardar si la ficha debe seguir cayendo o no.
+                        //asigna letiable para guardar si la ficha debe seguir cayendo o no.
                         let continua = true;
                         //recorre el tablero 
                         for(let i = tablero.getFila() - 1; (i >= 0) && (continua == true); i--){
@@ -276,14 +386,14 @@ imgBE.onload = function(){
                             //si no hay color en el casillero...
                             if(cuadrado.getColor() == null){
                                 //agrega imagen roja al tablero.
-                                if(colorToken == "rojo"){
-                                    cuadrado.setImage(imgBRT);
-                                    cuadrado.setColor("rojo");
+                                if(colorToken == "jug1"){
+                                    cuadrado.setImage(imgJugador1Tablero);
+                                    cuadrado.setColor("jug1");
                                 }
-                                //agrega imagen azul al tablero.
+                                //agrega imagen jug2 al tablero.
                                 else{
-                                    cuadrado.setImage(imgBBT);
-                                    cuadrado.setColor("azul");
+                                    cuadrado.setImage(imgJugador2Tablero);
+                                    cuadrado.setColor("jug2");
                                 }
                                 //corta el for.
                                 continua = false;
@@ -392,32 +502,31 @@ imgBE.onload = function(){
                         context.strokeStyle = "black";
                         context.lineWidth = 5;
 
-                        //console.log("ganador()JUGADOR: ",jugador);
                         switch (jugador) {
                             //segun el valor de jugador, muestra por pantalla un mensaje.
                             //y asigna jugador a "ultimo", para frenar el juego.
-                            case "rojo":
-                                context.fillStyle = "red";
+                            case "jug1":
+                                context.fillStyle = colorJ1;
                                 context.fillText("GANASTE!", 650, 300);
                                 context.strokeText("GANASTE!", 650, 300);
                                 jugador = "ultimo";
                                 break;
                               
-                            case "azul":
-                                context.fillStyle = "blue";
+                            case "jug2":
+                                context.fillStyle = colorJ2;
                                 context.fillText("GANASTE!", 650, 300);
                                 context.strokeText("GANASTE!", 650, 300);
                                 jugador = "ultimo";
                                 break;
                                                         
                             case "time":
-                                context.fillStyle = "green";
+                                context.fillStyle = "white";
                                 context.fillText("TIEMPO!", 650, 300);
                                 context.strokeText("TIEMPO!", 650, 300);
                                 jugador = "ultimo";
                                 break;
                             case "empate":
-                                context.fillStyle = "yellow";
+                                context.fillStyle = "white";
                                 context.fillText("EMPATE!", 650, 300);
                                 context.strokeText("EMPATE!", 650, 300);
                                 jugador = "ultimo";
@@ -426,10 +535,7 @@ imgBE.onload = function(){
                           }
                     }
                     
-                    //funcion recarga la pagina
-                    function comenzar(){
-                        location.reload();
-                    }
+
                     
                     //funcion del timer.
                     function startTimer() {
@@ -441,7 +547,7 @@ imgBE.onload = function(){
                             let counter = document.getElementById("timer");
                             
                             
-                            if (jugador!="ultimo"){
+                            if (jugador!="ultimo" && restart==false){
                             counter.innerHTML = minutos.toString()+":"+(segundos < 10 ? "0" : "") +String(segundos);
                             segundos--;
                                                       
@@ -468,11 +574,7 @@ imgBE.onload = function(){
                         
                       }
                     
-                    document.querySelector("#buttonIniciar").addEventListener("click", comenzar);
+                    
                     
                 }
-            }
-        }
-    }
-}
 
